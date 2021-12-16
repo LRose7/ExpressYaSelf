@@ -1,0 +1,83 @@
+.registerContainer {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(207, 226, 228);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.registerWrapper {
+    width: 70%;
+    height: 70%;
+    display: flex;
+}
+
+.registerLeft,.registerRight {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.registerLogo {
+    font-size: 50px;
+    font-weight: 800;
+    color: teal;
+}
+
+.registerDesc {
+    font-size: 24px;
+}
+
+.registerBox {
+    height: 400px;
+    padding: 20px ;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.registerInput {
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid grey;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.registerInput:focus {
+    outline: none;
+    border-color: teal;
+}
+
+.registerBtn {
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: teal;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.registeredAlready {
+    text-align: center;
+    color: black;
+}
+
+.registerLoginBtn {
+    width: 60%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #19b65f;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
