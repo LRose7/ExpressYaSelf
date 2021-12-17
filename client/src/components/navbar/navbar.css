@@ -1,7 +1,7 @@
 .navbarContainer {
     height : 50px;
     width: 100%;
-    background-color: royalblue;
+    background-color: rgb(85, 87, 90);
     display: flex;
     align-items: center;
     position: sticky;

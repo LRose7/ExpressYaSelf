@@ -31,10 +31,12 @@ const Navbar = () => {
                 </div>
             </div>
             <div className="navbarIcons">
-                <div className="navbarIconItem">
-                    <Chat />
-                    <span className="navbarIconBadge">1</span>
-                </div>
+                <Link to="/messenger" style={{textDecoration: "none"}}>
+                    <div className="navbarIconItem">
+                        <Chat />
+                        <span className="navbarIconBadge">1</span>
+                    </div>
+                </Link>
             </div>
             <div className="navbarIcons">
                 <div className="navbarIconItem">
@@ -56,6 +58,6 @@ const Navbar = () => {
         </div>
     </div>
     )
-}
+};
 
 export default Navbar
