@@ -1,9 +1,94 @@
 const router = require('express').Router();
+const bcrypt = require('bcryptjs');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+
+// Load User model
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
+
+// @route   POST api/users/register
+// @desc    Register a user
+// @access  Public
+router.post('/register', (req, res) => {
+    // see if email already exists
+    User.findOne({ email: req.body.email })
+    .then(user => {
+        if (user) {
+            return res.status(400).json({ email: 'Email already Exists' });
+        } else {
+            // create new user
+            const newUser = new User({
+                username: req.body.username,
+                email: req.body.email,
+                password: req.body.password
+            });
+
+            // generate new password
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if (err) throw err;
+                    newUser.password = hash;
+                    newUser.save()
+                    .then(user => res.json(user))
+                    .catch(err => console.log(err));
+                })
+            })
+        }
+    });
+});
+
+// @route   POST api/users/login
+// @desc    Login User / Returning JWT Token
+// @access  Public
+router.post('/login', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    User.findOne({ email }).then(user => {
+        // check for user
+        if (!user) {
+            return res.status(404).json({ email: 'User not found' });
+        }
+
+        // check password
+        bcrypt.compare(password, user.password).then(isMatch => {
+            if (isMatch) {
+                // user matched
+                const payload = { id: user.id, email: user.email } // create JWT payload
+
+                // sign token
+                jwt.sign(
+                    payload,
+                    process.env.SECRET,
+                    { expiresIn: 3600 }, (err, token) => {
+                        res.json({
+                            success: true,
+                            token: 'Bearer ' + token
+                        });
+                    }); // 3600 = 1hr
+            } else {
+                return res.status(400).json({ password: 'Password Incorrect' });
+            }
+        });
+    });
+});
+
+// @route   GET api/users/current
+// @desc    Return current user 
+// @access  Private
+router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.json({
+        id: req.user.id,
+        username: req.user.username,
+        email: req.user.email
+    });
+});
+
 
 // update user
-router.put('/:id', async (req, res) => {
+router.put('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     if (req.body.userId === req.params.id || req.body.isAdmin) {
         if (req.body.password) {
             try {

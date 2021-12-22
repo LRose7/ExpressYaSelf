@@ -54,9 +54,13 @@ const UserSchema = new mongoose.Schema({
     relationship: {
         type: Number,
         enum: [1,2,3]
-    }
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
 },
 { timestamps: true }
 );
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = User = mongoose.model('users', UserSchema);

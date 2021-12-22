@@ -1,12 +1,19 @@
 import './navbar.css';
-import { Search, Person, Chat, Notifications } from '@mui/icons-material';
+import { Search, Person, Chat, Notifications, Logout } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { logoutCall } from '../../apicalls';
 
 const Navbar = () => {
     const { user } = useContext(AuthContext);
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+const handleLogout = (e) => {
+    e.preventDefault();
+    logoutCall();
+}
+
     return (
         <div className="navbarContainer">
         <div className="navbarLeft">
@@ -42,6 +49,11 @@ const Navbar = () => {
                 <div className="navbarIconItem">
                     <Notifications />
                     <span className="navbarIconBadge">1</span>
+                </div>
+            </div>
+            <div className="navbarIcons">
+                <div className="navbarIconItem">
+                    <Logout onClick={handleLogout} />
                 </div>
             </div>
             <Link to={`/profile/${user.username}`}>
